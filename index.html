@@ -6,191 +6,128 @@
     <title>Countdown Tết Nguyên Đán 2026</title>
     <meta name="description" content="Đếm ngược thời gian đến Tết Nguyên Đán 2026 - Cùng chờ đón năm mới!">
     <style>
-        /* Tối ưu hiệu suất tối đa */
+        /* Tối ưu hiệu suất, đơn giản hóa để mượt trên mobile */
         * { box-sizing: border-box; }
-        html { height: 100%; }
-        body {
+        html, body {
+            height: 100%;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #ff3e3e, #ff6b9d, #c94b9d, #a855f7);
-            background-size: 400% 400%;
-            animation: gradientShift 20s ease infinite;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #ff69b4; /* Pink solid như ảnh */
             color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
             overflow: hidden;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            position: relative; /* Để thêm hoa absolute */
         }
 
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 24px;
-            padding: 50px 30px 40px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             max-width: 90%;
-            width: 680px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            will-change: transform;
-            animation: fadeInUp 1.2s ease-out;
+            width: 400px;
             position: relative;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .icons-top {
-            margin-bottom: 20px;
-            font-size: 0; /* remove inline spacing */
-        }
-
-        .icons-top img {
-            height: 60px;
-            margin: 0 12px;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .icons-top img:nth-child(1) { animation-delay: 0s; }
-        .icons-top img:nth-child(2) { animation-delay: 1s; }
-        .icons-top img:nth-child(3) { animation-delay: 2s; }
-        .icons-top img:nth-child(4) { animation-delay: 1.5s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            margin-bottom: 10px;
+            font-size: 12px; /* Nhỏ như ảnh */
         }
 
         .title {
-            font-size: 3.2em;
-            font-weight: 900;
-            margin: 0 0 12px;
-            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-            background: linear-gradient(90deg, #ffd700, #ffed4e, #fff200, #ffd700);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 4s linear infinite;
-            letter-spacing: 2px;
-        }
-
-        @keyframes shine {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 200% 50%; }
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #ffd700; /* Gold */
+            margin: 0 0 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .subtitle {
-            font-size: 1.4em;
-            margin: 0 0 40px;
-            opacity: 0.95;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            font-size: 1em;
+            margin: 0 0 20px;
+            opacity: 0.9;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
+            gap: 5px;
             flex-wrap: wrap;
-        }
-
-        .subtitle img {
-            height: 45px;
-            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4));
         }
 
         .countdown {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .time-unit {
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(8px);
-            border-radius: 16px;
-            padding: 20px 15px;
-            min-width: 110px;
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            will-change: transform;
-        }
-
-        .time-unit:hover {
-            transform: translateY(-10px) scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 10px;
+            min-width: 60px;
         }
 
         .number {
-            font-size: 3.5em;
-            font-weight: 900;
-            line-height: 1;
-            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            font-size: 2em;
+            font-weight: bold;
         }
 
         .label {
-            font-size: 1em;
+            font-size: 0.8em;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-top: 8px;
-            opacity: 0.9;
+            opacity: 0.8;
         }
 
-        /* Responsive tối ưu */
-        @media (max-width: 768px) {
-            .title { font-size: 2.6em; }
-            .subtitle { font-size: 1.2em; gap: 10px; }
-            .icons-top img { height: 50px; margin: 0 8px; }
-            .subtitle img { height: 38px; }
-            .time-unit { padding: 18px 12px; min-width: 90px; }
-            .number { font-size: 3em; }
+        .instruction {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-top: 10px;
         }
 
+        /* Hoa mai Tết - emoji 🌼 */
+        .flower {
+            position: absolute;
+            font-size: 24px;
+            animation: fadeOut 5s ease forwards;
+            pointer-events: none;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+        }
+
+        /* Responsive */
         @media (max-width: 480px) {
-            .container { padding: 40px 20px 30px; }
-            .title { font-size: 2.2em; letter-spacing: 1px; }
-            .subtitle { font-size: 1.1em; }
-            .icons-top img { height: 40px; margin: 0 6px; }
-            .subtitle img { height: 32px; }
-            .countdown { gap: 10px; }
-            .time-unit { padding: 15px 10px; min-width: 75px; }
-            .number { font-size: 2.6em; }
+            .title { font-size: 1.5em; }
+            .subtitle { font-size: 0.9em; }
+            .number { font-size: 1.8em; }
+            .time-unit { padding: 8px; min-width: 50px; }
         }
 
-        /* Tối ưu hiệu suất GPU */
-        .container, .time-unit, .icons-top img {
+        /* Tối ưu GPU */
+        .container, .flower {
             transform: translateZ(0);
-            -webkit-transform: translateZ(0);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Icon trang trí phía trên title -->
-        <div class="icons-top">
-            <img src="https://png.pngtree.com/png-vector/20241025/ourmid/pngtree-peach-blossom-branch-vietnamese-new-year-png-image_14158195.png" alt="Hoa đào">
-            <img src="https://png.pngtree.com/png-vector/20241009/ourmid/pngtree-chinese-traditional-red-and-gold-lantern-png-image_14028900.png" alt="Lồng đèn">
-            <img src="https://png.pngtree.com/png-vector/20230120/ourmid/pngtree-chinese-lanterns-with-red-and-gold-color-png-image_6568543.png" alt="Lồng đèn">
-            <img src="https://static.vecteezy.com/system/resources/thumbnails/035/517/014/small/tet-vietnamese-new-year-png.png" alt="Pháo hoa Tết">
-        </div>
+        <!-- Icons top nhỏ như ảnh -->
+        <div class="icons-top">.•.•.•.</div> <!-- Dùng dấu chấm nhỏ thay vì img để load nhanh -->
 
         <h1 class="title">TẾT NGUYÊN ĐÁN 2026</h1>
         
-        <!-- Subtitle với icon hai bên -->
+        <!-- Subtitle với emoji lì xì 🧧 -->
         <p class="subtitle">
-            <img src="https://img.freepik.com/premium-vector/red-envelop-traditional-lucky-envelop-china-new-year-eve-bao-li-xi-tet-holiday_313905-4617.jpg" alt="Lì xì">
-            CÙNG MÌNH CHỜ ĐẾN TẾT NGUYÊN ĐÁN 2026 NHÉ MỌI NGƯỜI ❤️
-            <img src="https://img.freepik.com/premium-vector/red-envelop-traditional-lucky-envelop-china-new-year-eve-bao-li-xi-tet-holiday_313905-4606.jpg" alt="Lì xì">
+            🧧 CÙNG MÌNH CHỜ ĐẾN TẾT NGUYÊN ĐÁN 2026 NHÉ MỌI NGƯỜI ❤️ 🧧
         </p>
         
         <div class="countdown">
@@ -211,10 +148,13 @@
                 <div class="label">Giây</div>
             </div>
         </div>
+
+        <!-- Title dưới bộ đếm -->
+        <p class="instruction">Bấm vào màn hình để hiện bông hoa mai Tết</p>
     </div>
 
     <script>
-        // Ngày Tết Nguyên Đán 2026: 27/01/2026
+        // Target date: Tết 2026 - 27/01/2026
         const targetDate = new Date('2026-01-27T00:00:00').getTime();
 
         const daysEl = document.getElementById('days');
@@ -253,6 +193,41 @@
         };
 
         requestAnimationFrame(updateCountdown);
+
+        // Thêm hoa mai khi bấm/ chạm
+        const createFlower = (x, y) => {
+            const flower = document.createElement('div');
+            flower.className = 'flower';
+            flower.textContent = '🌼'; // Emoji hoa mai Tết
+            flower.style.left = `${x}px`;
+            flower.style.top = `${y}px`;
+            flower.style.transform = `rotate(${Math.random() * 360}deg)`;
+            document.body.appendChild(flower);
+
+            // Xóa sau animation để tránh lag
+            setTimeout(() => {
+                flower.remove();
+            }, 5000);
+        };
+
+        // Event listener cho click và touch
+        document.body.addEventListener('click', (e) => {
+            // Thêm 3-5 hoa random quanh vị trí click
+            for (let i = 0; i < Math.floor(Math.random() * 3) + 3; i++) {
+                const offsetX = (Math.random() - 0.5) * 100;
+                const offsetY = (Math.random() - 0.5) * 100;
+                createFlower(e.clientX + offsetX, e.clientY + offsetY);
+            }
+        });
+
+        document.body.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            for (let i = 0; i < Math.floor(Math.random() * 3) + 3; i++) {
+                const offsetX = (Math.random() - 0.5) * 100;
+                const offsetY = (Math.random() - 0.5) * 100;
+                createFlower(touch.clientX + offsetX, touch.clientY + offsetY);
+            }
+        });
     </script>
 </body>
 </html>
