@@ -17,8 +17,8 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            touch-action: manipulation; /* Tối ưu touch trên mobile */
-            -webkit-tap-highlight-color: transparent; /* Bỏ highlight khi tap */
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .container {
@@ -90,7 +90,7 @@
             margin-top: 10px;
         }
 
-        /* Hoa mai - tối ưu cực nhẹ */
+        /* Hoa mai khi bấm */
         .flower {
             position: absolute;
             font-size: 28px;
@@ -108,6 +108,32 @@
             100% {
                 opacity: 0;
                 transform: translateY(-80px) rotate(360deg) scale(0.5);
+            }
+        }
+
+        /* Pháo hoa khi Tết đến */
+        .firework {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: explode 1.5s ease-out forwards;
+            will-change: transform, opacity;
+        }
+
+        @keyframes explode {
+            0% {
+                opacity: 1;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(8);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(12);
             }
         }
 
@@ -153,14 +179,17 @@
     </div>
 
     <script>
-        // Countdown
-        const targetDate = new Date('2026-01-27T00:00:00').getTime();
+        // Thời điểm chính xác Tết Nguyên Đán 2026 (Mùng 1 Tết): 17/02/2026 00:00:00 giờ Việt Nam
+        // Đây là lúc giao thừa chuyển sang năm mới, pháo hoa sẽ bắn lên!
+        const targetDate = new Date('2026-02-17T00:00:00').getTime();
+
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
         const minutesEl = document.getElementById('minutes');
         const secondsEl = document.getElementById('seconds');
 
         let prevSec = -1;
+        let isOver = false; // Chỉ bắn pháo hoa 1 lần
 
         const update = () => {
             const now = Date.now();
@@ -168,6 +197,11 @@
 
             if (diff <= 0) {
                 daysEl.textContent = hoursEl.textContent = minutesEl.textContent = secondsEl.textContent = '0';
+
+                if (!isOver) {
+                    isOver = true;
+                    launchFireworks();
+                }
                 return;
             }
 
@@ -188,7 +222,29 @@
         };
         requestAnimationFrame(update);
 
-        // Tối ưu hoa mai: không dùng offset, không setTimeout dài, animation ngắn
+        // Bắn pháo hoa lung linh khi Tết đến (giao thừa)
+        const launchFireworks = () => {
+            const colors = ['#ff0000', '#ff7300', '#ffff00', '#00ff00', '#00ffff', '#ff00ff', '#ffd700', '#ff1493'];
+
+            for (let i = 0; i < 60; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight * 0.8;
+
+                firework.style.left = `${x}px`;
+                firework.style.top = `${y}px`;
+                firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                firework.style.boxShadow = `0 0 15px ${firework.style.backgroundColor}`;
+
+                document.body.appendChild(firework);
+
+                firework.addEventListener('animationend', () => firework.remove());
+            }
+        };
+
+        // Hoa mai khi bấm (giữ nguyên)
         const createFlower = (x, y) => {
             const f = document.createElement('div');
             f.className = 'flower';
@@ -198,13 +254,11 @@
             f.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
             document.body.appendChild(f);
 
-            // Xóa ngay sau khi animation kết thúc (3s)
             f.addEventListener('animationend', () => f.remove());
         };
 
-        // Click & Touch hợp nhất, phản hồi ngay lập tức
         const handleTap = (e) => {
-            e.preventDefault(); // Ngăn double tap zoom trên mobile
+            e.preventDefault();
 
             let clientX, clientY;
             if (e.touches) {
@@ -215,7 +269,6 @@
                 clientY = e.clientY;
             }
 
-            // Tạo 4-6 hoa ngay lập tức
             const count = Math.floor(Math.random() * 3) + 4;
             for (let i = 0; i < count; i++) {
                 const offsetX = (Math.random() - 0.5) * 80;
@@ -224,7 +277,6 @@
             }
         };
 
-        // Dùng pointer events để xử lý cả chuột và touch siêu mượt
         document.body.addEventListener('pointerdown', handleTap);
     </script>
 </body>
