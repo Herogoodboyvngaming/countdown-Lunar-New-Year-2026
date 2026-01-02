@@ -90,7 +90,7 @@
             margin-top: 10px;
         }
 
-        /* Nút bắn pháo hoa lại - chỉ hiện sau giao thừa */
+        /* Nút bắn pháo hoa lại */
         .firework-btn {
             margin-top: 20px;
             padding: 12px 24px;
@@ -120,7 +120,7 @@
             transform: scale(0.95);
         }
 
-        /* Hoa mai khi bấm */
+        /* Hoa mai */
         .flower {
             position: absolute;
             font-size: 28px;
@@ -152,7 +152,6 @@
             100% { opacity: 0; transform: scale(12); }
         }
 
-        /* Responsive */
         @media (max-width: 480px) {
             .title { font-size: 1.5em; }
             .subtitle { font-size: 0.9em; }
@@ -193,15 +192,18 @@
 
         <p class="instruction">Bấm vào màn hình để hiện bông hoa mai Tết 🌼</p>
 
-        <!-- Nút bắn pháo hoa lại - ban đầu ẩn -->
         <button class="firework-btn" id="fireworkBtn">
             🎆 BẮN PHÁO HOA LẠI 🎆
         </button>
     </div>
 
     <script>
-        // Thời khắc giao thừa Tết Nguyên Đán 2026 (Mùng 1 Tết)
-        const targetDate = new Date('2026-02-17T00:00:00').getTime();
+        // ===== CHỈNH Ở ĐÂY ĐỂ TEST =====
+        // Để test ngay: set target là 10 giây sau khi mở trang
+        const targetDate = Date.now() + 10000; // 10 giây sau
+        
+        // Khi dùng thật: bỏ comment dòng dưới và comment dòng trên
+        // const targetDate = new Date('2026-02-17T00:00:00').getTime();
 
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
@@ -210,7 +212,7 @@
         const fireworkBtn = document.getElementById('fireworkBtn');
 
         let prevSec = -1;
-        let isOver = false; // Đã qua giao thừa chưa
+        let isOver = false;
 
         const update = () => {
             const now = Date.now();
@@ -219,11 +221,10 @@
             if (diff <= 0) {
                 daysEl.textContent = hoursEl.textContent = minutesEl.textContent = secondsEl.textContent = '0';
 
-                // Lần đầu về 0: tự động bắn pháo hoa + hiện nút
                 if (!isOver) {
                     isOver = true;
                     launchFireworks();
-                    fireworkBtn.classList.add('visible'); // Hiện nút
+                    fireworkBtn.classList.add('visible');
                 }
                 requestAnimationFrame(update);
                 return;
@@ -246,7 +247,6 @@
         };
         requestAnimationFrame(update);
 
-        // Hàm bắn pháo hoa (dùng chung cho tự động và nút)
         const launchFireworks = () => {
             const colors = ['#ff0000', '#ff7300', '#ffff00', '#00ff00', '#00ffff', '#ff00ff', '#ffd700', '#ff1493'];
 
@@ -268,14 +268,12 @@
             }
         };
 
-        // Nút bắn lại pháo hoa (chỉ hoạt động sau giao thừa)
         fireworkBtn.addEventListener('click', () => {
             if (isOver) {
                 launchFireworks();
             }
         });
 
-        // Hoa mai khi bấm màn hình
         const createFlower = (x, y) => {
             const f = document.createElement('div');
             f.className = 'flower';
