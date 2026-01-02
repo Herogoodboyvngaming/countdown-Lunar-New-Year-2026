@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Tết Nguyên Đán 2026</title>
+    <meta name="description" content="Đếm ngược thời gian đến Tết Nguyên Đán 2026 - Cùng chờ đón năm mới!">
+    <style>
+        /* Tối ưu hiệu suất tối đa */
+        * { box-sizing: border-box; }
+        html { height: 100%; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #ff3e3e, #ff6b9d, #c94b9d, #a855f7);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 50px 30px 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            max-width: 90%;
+            width: 680px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            will-change: transform;
+            animation: fadeInUp 1.2s ease-out;
+            position: relative;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .icons-top {
+            margin-bottom: 20px;
+            font-size: 0; /* remove inline spacing */
+        }
+
+        .icons-top img {
+            height: 60px;
+            margin: 0 12px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .icons-top img:nth-child(1) { animation-delay: 0s; }
+        .icons-top img:nth-child(2) { animation-delay: 1s; }
+        .icons-top img:nth-child(3) { animation-delay: 2s; }
+        .icons-top img:nth-child(4) { animation-delay: 1.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .title {
+            font-size: 3.2em;
+            font-weight: 900;
+            margin: 0 0 12px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(90deg, #ffd700, #ffed4e, #fff200, #ffd700);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+            letter-spacing: 2px;
+        }
+
+        @keyframes shine {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.4em;
+            margin: 0 0 40px;
+            opacity: 0.95;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .subtitle img {
+            height: 45px;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4));
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .time-unit {
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+            padding: 20px 15px;
+            min-width: 110px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform;
+        }
+
+        .time-unit:hover {
+            transform: translateY(-10px) scale(1.05);
+        }
+
+        .number {
+            font-size: 3.5em;
+            font-weight: 900;
+            line-height: 1;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .label {
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+
+        /* Responsive tối ưu */
+        @media (max-width: 768px) {
+            .title { font-size: 2.6em; }
+            .subtitle { font-size: 1.2em; gap: 10px; }
+            .icons-top img { height: 50px; margin: 0 8px; }
+            .subtitle img { height: 38px; }
+            .time-unit { padding: 18px 12px; min-width: 90px; }
+            .number { font-size: 3em; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 40px 20px 30px; }
+            .title { font-size: 2.2em; letter-spacing: 1px; }
+            .subtitle { font-size: 1.1em; }
+            .icons-top img { height: 40px; margin: 0 6px; }
+            .subtitle img { height: 32px; }
+            .countdown { gap: 10px; }
+            .time-unit { padding: 15px 10px; min-width: 75px; }
+            .number { font-size: 2.6em; }
+        }
+
+        /* Tối ưu hiệu suất GPU */
+        .container, .time-unit, .icons-top img {
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Icon trang trí phía trên title -->
+        <div class="icons-top">
+            <img src="https://png.pngtree.com/png-vector/20241025/ourmid/pngtree-peach-blossom-branch-vietnamese-new-year-png-image_14158195.png" alt="Hoa đào">
+            <img src="https://png.pngtree.com/png-vector/20241009/ourmid/pngtree-chinese-traditional-red-and-gold-lantern-png-image_14028900.png" alt="Lồng đèn">
+            <img src="https://png.pngtree.com/png-vector/20230120/ourmid/pngtree-chinese-lanterns-with-red-and-gold-color-png-image_6568543.png" alt="Lồng đèn">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/035/517/014/small/tet-vietnamese-new-year-png.png" alt="Pháo hoa Tết">
+        </div>
+
+        <h1 class="title">TẾT NGUYÊN ĐÁN 2026</h1>
+        
+        <!-- Subtitle với icon hai bên -->
+        <p class="subtitle">
+            <img src="https://img.freepik.com/premium-vector/red-envelop-traditional-lucky-envelop-china-new-year-eve-bao-li-xi-tet-holiday_313905-4617.jpg" alt="Lì xì">
+            CÙNG MÌNH CHỜ ĐẾN TẾT NGUYÊN ĐÁN 2026 NHÉ MỌI NGƯỜI ❤️
+            <img src="https://img.freepik.com/premium-vector/red-envelop-traditional-lucky-envelop-china-new-year-eve-bao-li-xi-tet-holiday_313905-4606.jpg" alt="Lì xì">
+        </p>
+        
+        <div class="countdown">
+            <div class="time-unit">
+                <div class="number" id="days">0</div>
+                <div class="label">Ngày</div>
+            </div>
+            <div class="time-unit">
+                <div class="number" id="hours">0</div>
+                <div class="label">Giờ</div>
+            </div>
+            <div class="time-unit">
+                <div class="number" id="minutes">0</div>
+                <div class="label">Phút</div>
+            </div>
+            <div class="time-unit">
+                <div class="number" id="seconds">0</div>
+                <div class="label">Giây</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ngày Tết Nguyên Đán 2026: 27/01/2026
+        const targetDate = new Date('2026-01-27T00:00:00').getTime();
+
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+
+        let previousSeconds = -1;
+
+        const updateCountdown = () => {
+            const now = Date.now();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                daysEl.textContent = '0';
+                hoursEl.textContent = '0';
+                minutesEl.textContent = '0';
+                secondsEl.textContent = '0';
+                return;
+            }
+
+            const days = Math.floor(distance / 86400000);
+            const hours = Math.floor((distance % 86400000) / 3600000);
+            const minutes = Math.floor((distance % 3600000) / 60000);
+            const seconds = Math.floor((distance % 60000) / 1000);
+
+            if (days !== parseInt(daysEl.textContent)) daysEl.textContent = days;
+            if (hours !== parseInt(hoursEl.textContent)) hoursEl.textContent = hours;
+            if (minutes !== parseInt(minutesEl.textContent)) minutesEl.textContent = minutes;
+            if (seconds !== previousSeconds) {
+                secondsEl.textContent = seconds;
+                previousSeconds = seconds;
+            }
+
+            requestAnimationFrame(updateCountdown);
+        };
+
+        requestAnimationFrame(updateCountdown);
+    </script>
+</body>
+</html>
