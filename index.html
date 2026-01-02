@@ -2,24 +2,23 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Countdown Tết Nguyên Đán 2026</title>
-    <meta name="description" content="Đếm ngược thời gian đến Tết Nguyên Đán 2026 - Cùng chờ đón năm mới!">
     <style>
-        /* Tối ưu hiệu suất, đơn giản hóa để mượt trên mobile */
         * { box-sizing: border-box; }
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
             font-family: system-ui, -apple-system, sans-serif;
-            background: #ff69b4; /* Pink solid như ảnh */
+            background: #ff69b4;
             color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            position: relative; /* Để thêm hoa absolute */
+            touch-action: manipulation; /* Tối ưu touch trên mobile */
+            -webkit-tap-highlight-color: transparent; /* Bỏ highlight khi tap */
         }
 
         .container {
@@ -35,13 +34,14 @@
 
         .icons-top {
             margin-bottom: 10px;
-            font-size: 12px; /* Nhỏ như ảnh */
+            font-size: 12px;
+            letter-spacing: 4px;
         }
 
         .title {
             font-size: 1.8em;
             font-weight: bold;
-            color: #ffd700; /* Gold */
+            color: #ffd700;
             margin: 0 0 10px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
@@ -53,7 +53,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
@@ -70,6 +70,7 @@
             border-radius: 10px;
             padding: 10px;
             min-width: 60px;
+            will-change: contents;
         }
 
         .number {
@@ -89,18 +90,24 @@
             margin-top: 10px;
         }
 
-        /* Hoa mai Tết - emoji 🌼 */
+        /* Hoa mai - tối ưu cực nhẹ */
         .flower {
             position: absolute;
-            font-size: 24px;
-            animation: fadeOut 5s ease forwards;
+            font-size: 28px;
             pointer-events: none;
+            user-select: none;
+            animation: flowerAnim 3s ease-out forwards;
+            will-change: transform, opacity;
         }
 
-        @keyframes fadeOut {
-            to {
+        @keyframes flowerAnim {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg) scale(1);
+            }
+            100% {
                 opacity: 0;
-                transform: translateY(50px);
+                transform: translateY(-80px) rotate(360deg) scale(0.5);
             }
         }
 
@@ -111,21 +118,14 @@
             .number { font-size: 1.8em; }
             .time-unit { padding: 8px; min-width: 50px; }
         }
-
-        /* Tối ưu GPU */
-        .container, .flower {
-            transform: translateZ(0);
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Icons top nhỏ như ảnh -->
-        <div class="icons-top">.•.•.•.</div> <!-- Dùng dấu chấm nhỏ thay vì img để load nhanh -->
+        <div class="icons-top">✨ • ✨ • ✨</div>
 
         <h1 class="title">TẾT NGUYÊN ĐÁN 2026</h1>
         
-        <!-- Subtitle với emoji lì xì 🧧 -->
         <p class="subtitle">
             🧧 CÙNG MÌNH CHỜ ĐẾN TẾT NGUYÊN ĐÁN 2026 NHÉ MỌI NGƯỜI ❤️ 🧧
         </p>
@@ -149,85 +149,83 @@
             </div>
         </div>
 
-        <!-- Title dưới bộ đếm -->
-        <p class="instruction">Bấm vào màn hình để hiện bông hoa mai Tết</p>
+        <p class="instruction">Bấm vào màn hình để hiện bông hoa mai Tết 🌼</p>
     </div>
 
     <script>
-        // Target date: Tết 2026 - 27/01/2026
+        // Countdown
         const targetDate = new Date('2026-01-27T00:00:00').getTime();
-
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
         const minutesEl = document.getElementById('minutes');
         const secondsEl = document.getElementById('seconds');
 
-        let previousSeconds = -1;
+        let prevSec = -1;
 
-        const updateCountdown = () => {
+        const update = () => {
             const now = Date.now();
-            const distance = targetDate - now;
+            const diff = targetDate - now;
 
-            if (distance < 0) {
-                daysEl.textContent = '0';
-                hoursEl.textContent = '0';
-                minutesEl.textContent = '0';
-                secondsEl.textContent = '0';
+            if (diff <= 0) {
+                daysEl.textContent = hoursEl.textContent = minutesEl.textContent = secondsEl.textContent = '0';
                 return;
             }
 
-            const days = Math.floor(distance / 86400000);
-            const hours = Math.floor((distance % 86400000) / 3600000);
-            const minutes = Math.floor((distance % 3600000) / 60000);
-            const seconds = Math.floor((distance % 60000) / 1000);
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff % 86400000) / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
 
-            if (days !== parseInt(daysEl.textContent)) daysEl.textContent = days;
-            if (hours !== parseInt(hoursEl.textContent)) hoursEl.textContent = hours;
-            if (minutes !== parseInt(minutesEl.textContent)) minutesEl.textContent = minutes;
-            if (seconds !== previousSeconds) {
-                secondsEl.textContent = seconds;
-                previousSeconds = seconds;
+            if (d !== +daysEl.textContent) daysEl.textContent = d;
+            if (h !== +hoursEl.textContent) hoursEl.textContent = h;
+            if (m !== +minutesEl.textContent) minutesEl.textContent = m;
+            if (s !== prevSec) {
+                secondsEl.textContent = s;
+                prevSec = s;
             }
 
-            requestAnimationFrame(updateCountdown);
+            requestAnimationFrame(update);
         };
+        requestAnimationFrame(update);
 
-        requestAnimationFrame(updateCountdown);
-
-        // Thêm hoa mai khi bấm/ chạm
+        // Tối ưu hoa mai: không dùng offset, không setTimeout dài, animation ngắn
         const createFlower = (x, y) => {
-            const flower = document.createElement('div');
-            flower.className = 'flower';
-            flower.textContent = '🌼'; // Emoji hoa mai Tết
-            flower.style.left = `${x}px`;
-            flower.style.top = `${y}px`;
-            flower.style.transform = `rotate(${Math.random() * 360}deg)`;
-            document.body.appendChild(flower);
+            const f = document.createElement('div');
+            f.className = 'flower';
+            f.textContent = '🌼';
+            f.style.left = `${x}px`;
+            f.style.top = `${y}px`;
+            f.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
+            document.body.appendChild(f);
 
-            // Xóa sau animation để tránh lag
-            setTimeout(() => {
-                flower.remove();
-            }, 5000);
+            // Xóa ngay sau khi animation kết thúc (3s)
+            f.addEventListener('animationend', () => f.remove());
         };
 
-        // Event listener cho click và touch
-        document.body.addEventListener('click', (e) => {
-            // Thêm 3-5 hoa random quanh vị trí click
-            for (let i = 0; i < Math.floor(Math.random() * 3) + 3; i++) {
-                const offsetX = (Math.random() - 0.5) * 100;
-                const offsetY = (Math.random() - 0.5) * 100;
-                createFlower(e.clientX + offsetX, e.clientY + offsetY);
-            }
-        });
+        // Click & Touch hợp nhất, phản hồi ngay lập tức
+        const handleTap = (e) => {
+            e.preventDefault(); // Ngăn double tap zoom trên mobile
 
-        document.body.addEventListener('touchstart', (e) => {
-            const touch = e.touches[0];
-            for (let i = 0; i < Math.floor(Math.random() * 3) + 3; i++) {
-                const offsetX = (Math.random() - 0.5) * 100;
-                const offsetY = (Math.random() - 0.5) * 100;
-                createFlower(touch.clientX + offsetX, touch.clientY + offsetY);
+            let clientX, clientY;
+            if (e.touches) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
             }
-        });
+
+            // Tạo 4-6 hoa ngay lập tức
+            const count = Math.floor(Math.random() * 3) + 4;
+            for (let i = 0; i < count; i++) {
+                const offsetX = (Math.random() - 0.5) * 80;
+                const offsetY = (Math.random() - 0.5) * 80;
+                createFlower(clientX + offsetX, clientY + offsetY);
+            }
+        };
+
+        // Dùng pointer events để xử lý cả chuột và touch siêu mượt
+        document.body.addEventListener('pointerdown', handleTap);
     </script>
 </body>
 </html>
