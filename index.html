@@ -90,6 +90,36 @@
             margin-top: 10px;
         }
 
+        /* Nút bắn pháo hoa lại - chỉ hiện sau giao thừa */
+        .firework-btn {
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 1em;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(45deg, #ff1493, #ff7300);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .firework-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .firework-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .firework-btn:active {
+            transform: scale(0.95);
+        }
+
         /* Hoa mai khi bấm */
         .flower {
             position: absolute;
@@ -101,17 +131,11 @@
         }
 
         @keyframes flowerAnim {
-            0% {
-                opacity: 1;
-                transform: translateY(0) rotate(0deg) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-80px) rotate(360deg) scale(0.5);
-            }
+            0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+            100% { opacity: 0; transform: translateY(-80px) rotate(360deg) scale(0.5); }
         }
 
-        /* Pháo hoa khi Tết đến */
+        /* Pháo hoa */
         .firework {
             position: absolute;
             width: 6px;
@@ -123,18 +147,9 @@
         }
 
         @keyframes explode {
-            0% {
-                opacity: 1;
-                transform: scale(0);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(8);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(12);
-            }
+            0% { opacity: 1; transform: scale(0); }
+            50% { opacity: 1; transform: scale(8); }
+            100% { opacity: 0; transform: scale(12); }
         }
 
         /* Responsive */
@@ -143,6 +158,7 @@
             .subtitle { font-size: 0.9em; }
             .number { font-size: 1.8em; }
             .time-unit { padding: 8px; min-width: 50px; }
+            .firework-btn { padding: 10px 20px; font-size: 0.9em; }
         }
     </style>
 </head>
@@ -176,20 +192,25 @@
         </div>
 
         <p class="instruction">Bấm vào màn hình để hiện bông hoa mai Tết 🌼</p>
+
+        <!-- Nút bắn pháo hoa lại - ban đầu ẩn -->
+        <button class="firework-btn" id="fireworkBtn">
+            🎆 BẮN PHÁO HOA LẠI 🎆
+        </button>
     </div>
 
     <script>
-        // Thời điểm chính xác Tết Nguyên Đán 2026 (Mùng 1 Tết): 17/02/2026 00:00:00 giờ Việt Nam
-        // Đây là lúc giao thừa chuyển sang năm mới, pháo hoa sẽ bắn lên!
+        // Thời khắc giao thừa Tết Nguyên Đán 2026 (Mùng 1 Tết)
         const targetDate = new Date('2026-02-17T00:00:00').getTime();
 
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
         const minutesEl = document.getElementById('minutes');
         const secondsEl = document.getElementById('seconds');
+        const fireworkBtn = document.getElementById('fireworkBtn');
 
         let prevSec = -1;
-        let isOver = false; // Chỉ bắn pháo hoa 1 lần
+        let isOver = false; // Đã qua giao thừa chưa
 
         const update = () => {
             const now = Date.now();
@@ -198,10 +219,13 @@
             if (diff <= 0) {
                 daysEl.textContent = hoursEl.textContent = minutesEl.textContent = secondsEl.textContent = '0';
 
+                // Lần đầu về 0: tự động bắn pháo hoa + hiện nút
                 if (!isOver) {
                     isOver = true;
                     launchFireworks();
+                    fireworkBtn.classList.add('visible'); // Hiện nút
                 }
+                requestAnimationFrame(update);
                 return;
             }
 
@@ -222,7 +246,7 @@
         };
         requestAnimationFrame(update);
 
-        // Bắn pháo hoa lung linh khi Tết đến (giao thừa)
+        // Hàm bắn pháo hoa (dùng chung cho tự động và nút)
         const launchFireworks = () => {
             const colors = ['#ff0000', '#ff7300', '#ffff00', '#00ff00', '#00ffff', '#ff00ff', '#ffd700', '#ff1493'];
 
@@ -244,7 +268,14 @@
             }
         };
 
-        // Hoa mai khi bấm (giữ nguyên)
+        // Nút bắn lại pháo hoa (chỉ hoạt động sau giao thừa)
+        fireworkBtn.addEventListener('click', () => {
+            if (isOver) {
+                launchFireworks();
+            }
+        });
+
+        // Hoa mai khi bấm màn hình
         const createFlower = (x, y) => {
             const f = document.createElement('div');
             f.className = 'flower';
@@ -259,7 +290,6 @@
 
         const handleTap = (e) => {
             e.preventDefault();
-
             let clientX, clientY;
             if (e.touches) {
                 clientX = e.touches[0].clientX;
