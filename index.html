@@ -3,29 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Test Countdown Tết 2026</title>
-    <!-- CSS giống hệt bản thật, copy nguyên phần <style> từ trên xuống đây -->
+    <title>Countdown Tết Nguyên Đán 2026</title>
     <style>
-        /* Dán toàn bộ phần <style> từ bản thật vào đây (để tránh dài, mình không paste lại, bạn copy từ bản trên nhé) */
         * { box-sizing: border-box; }
-        /* ... toàn bộ CSS giống bản thật ... */
+        html, body {
+            height: 100%; margin: 0; padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #ff69b4; color: #fff;
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden; touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .container {
+            text-align: center; background: rgba(255,255,255,0.3);
+            border-radius: 20px; padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            max-width: 90%; width: 400px; position: relative;
+        }
+        .icons-top { margin-bottom: 10px; font-size: 12px; letter-spacing: 4px; }
+        .title { font-size: 1.8em; font-weight: bold; color: #ffd700; margin: 0 0 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .subtitle { font-size: 1em; margin: 0 0 20px; opacity: 0.9; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+        .countdown { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
+        .time-unit { background: rgba(255,255,255,0.2); border-radius: 10px; padding: 10px; min-width: 60px; }
+        .number { font-size: 2em; font-weight: bold; }
+        .label { font-size: 0.8em; text-transform: uppercase; opacity: 0.8; }
+        .instruction { font-size: 0.9em; opacity: 0.8; margin-top: 10px; }
+        .firework-btn {
+            margin-top: 20px; padding: 12px 24px; font-size: 1em; font-weight: bold; color: #fff;
+            background: linear-gradient(45deg, #ff1493, #ff7300); border: none; border-radius: 50px;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); opacity: 0; visibility: hidden;
+            transition: all 0.4s ease;
+        }
+        .firework-btn.visible { opacity: 1; visibility: visible; }
+        .firework-btn:hover { transform: scale(1.05); }
+        .firework-btn:active { transform: scale(0.95); }
+        .flower { position: absolute; font-size: 28px; pointer-events: none; user-select: none; animation: flowerAnim 3s ease-out forwards; }
+        @keyframes flowerAnim { 0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); } 100% { opacity: 0; transform: translateY(-80px) rotate(360deg) scale(0.5); } }
+        .firework-container { position: absolute; pointer-events: none; width: 1px; height: 1px; }
+        .spark { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #fff; box-shadow: 0 0 12px #fff; opacity: 0; }
+        @media (max-width: 480px) {
+            .title { font-size: 1.5em; } .subtitle { font-size: 0.9em; } .number { font-size: 1.8em; }
+            .time-unit { padding: 8px; min-width: 50px; } .firework-btn { padding: 10px 20px; font-size: 0.9em; }
+        }
     </style>
 </head>
 <body>
-    <!-- HTML giống hệt bản thật -->
     <div class="container">
-        <!-- ... toàn bộ HTML giống bản thật ... -->
+        <div class="icons-top">✨ • ✨ • ✨</div>
+        <h1 class="title">TẾT NGUYÊN ĐÁN 2026</h1>
+        <p class="subtitle">🧧 CÙNG MÌNH CHỜ ĐẾN TẾT NGUYÊN ĐÁN 2026 NHÉ MỌI NGƯỜI ❤️ 🧧</p>
+        <div class="countdown">
+            <div class="time-unit"><div class="number" id="days">0</div><div class="label">Ngày</div></div>
+            <div class="time-unit"><div class="number" id="hours">0</div><div class="label">Giờ</div></div>
+            <div class="time-unit"><div class="number" id="minutes">0</div><div class="label">Phút</div></div>
+            <div class="time-unit"><div class="number" id="seconds">0</div><div class="label">Giây</div></div>
+        </div>
+        <p class="instruction">Bấm vào màn hình để hiện bông hoa mai Tết 🌼</p>
+        <button class="firework-btn" id="fireworkBtn">🎆 BẮN PHÁO HOA LẠI 🎆</button>
     </div>
 
     <script>
-        // Bản TEST - Countdown chỉ 15 giây để xem ngay hiệu ứng
-        const targetDate = Date.now() + 15000; // 15 giây sau khi mở trang
+        // Bản chính thức - Đếm ngược đến đúng 00:00:00 ngày 17/02/2026 (giao thừa sang Mùng 1 Tết)
+        const targetDate = new Date('2026-02-17T00:00:00').getTime();
 
-        // Phần còn lại của script GIỐNG HỆT bản thật (copy nguyên từ const daysEl đến cuối)
         const daysEl = document.getElementById('days');
-        // ... paste hết phần script từ bản thật, chỉ khác mỗi dòng targetDate ...
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const fireworkBtn = document.getElementById('fireworkBtn');
 
-        // (Bạn chỉ cần copy phần script từ bản thật và thay dòng targetDate thành Date.now() + 15000)
+        let prevSec = -1;
+        let isOver = false;
+
+        const update = () => {
+            const now = Date.now();
+            const diff = targetDate - now;
+
+            if (diff <= 0) {
+                daysEl.textContent = hoursEl.textContent = minutesEl.textContent = secondsEl.textContent = '0';
+                if (!isOver) {
+                    isOver = true;
+                    launchFireworks();
+                    fireworkBtn.classList.add('visible');
+                }
+                requestAnimationFrame(update);
+                return;
+            }
+
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff % 86400000) / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+
+            if (d !== +daysEl.textContent) daysEl.textContent = d;
+            if (h !== +hoursEl.textContent) hoursEl.textContent = h;
+            if (m !== +minutesEl.textContent) minutesEl.textContent = m;
+            if (s !== prevSec) { secondsEl.textContent = s; prevSec = s; }
+
+            requestAnimationFrame(update);
+        };
+        requestAnimationFrame(update);
+
+        const launchFireworks = () => {
+            const colors = ['#ff0000','#ff7300','#ffff00','#00ff00','#00ffff','#0000ff','#ff00ff','#ffd700','#ff1493'];
+            const count = 9 + Math.floor(Math.random() * 4);
+            for (let i = 0; i < count; i++) {
+                const container = document.createElement('div');
+                container.className = 'firework-container';
+                container.style.left = `${Math.random() * 100}vw`;
+                container.style.top = `${Math.random() * 60 + 15}vh`;
+
+                for (let j = 0; j < 36; j++) {
+                    const spark = document.createElement('div');
+                    spark.className = 'spark';
+                    const angle = j * 10 * Math.PI / 180;
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    spark.style.background = color;
+                    spark.style.boxShadow = `0 0 12px ${color}`;
+
+                    let frame = 0;
+                    const animate = () => {
+                        frame++;
+                        const progress = frame / 60;
+                        if (progress >= 1) {
+                            spark.remove();
+                            return;
+                        }
+                        const dist = progress * 180;
+                        spark.style.opacity = 1 - progress;
+                        spark.style.transform = `translate(${Math.sin(angle) * dist}px, ${-Math.cos(angle) * dist}px)`;
+                        requestAnimationFrame(animate);
+                    };
+                    animate();
+
+                    container.appendChild(spark);
+                }
+                document.body.appendChild(container);
+            }
+        };
+
+        fireworkBtn.addEventListener('click', () => { if (isOver) launchFireworks(); });
+
+        const createFlower = (x, y) => {
+            const f = document.createElement('div');
+            f.className = 'flower';
+            f.textContent = '🌼';
+            f.style.left = `${x}px`;
+            f.style.top = `${y}px`;
+            f.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
+            document.body.appendChild(f);
+            f.addEventListener('animationend', () => f.remove());
+        };
+
+        const handleTap = (e) => {
+            e.preventDefault();
+            let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            let clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const count = Math.floor(Math.random() * 3) + 4;
+            for (let i = 0; i < count; i++) {
+                const offsetX = (Math.random() - 0.5) * 80;
+                const offsetY = (Math.random() - 0.5) * 80;
+                createFlower(clientX + offsetX, clientY + offsetY);
+            }
+        };
+        document.body.addEventListener('pointerdown', handleTap);
     </script>
 </body>
 </html>
