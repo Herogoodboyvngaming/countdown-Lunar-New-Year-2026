@@ -62,7 +62,6 @@ function onYouTubeIframeAPIReady() {
       'onReady': (e) => {
         playerReady = true;
         e.target.setVolume(100);
-        console.log("YouTube ready!");
       },
       'onError': (e) => console.error("YouTube Error:", e.data)
     }
@@ -96,20 +95,23 @@ volumeSlider.addEventListener("input", () => {
   if (player && playerReady) player.setVolume(volumeSlider.value);
 });
 
-// Emoji 🌸 bay khi bấm màn hình - GIẢM XUỐNG 3-5 BÔNG
+// Emoji 🌸 bay khi bấm màn hình - SIÊU NHẸ (3-5 bông)
 const canvas = document.getElementById("emoji-canvas");
 const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-window.addEventListener("resize", () => {
+
+// Resize canvas realtime cho mọi thiết bị (PC, Android, iOS, Mac)
+function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-});
+}
+window.addEventListener("resize", resizeCanvas);
+window.addEventListener("orientationchange", resizeCanvas);
+resizeCanvas(); // Gọi lần đầu
 
 let emojis = [];
 
 function createEmojis(x, y) {
-  const count = 3 + Math.floor(Math.random() * 3); // Chỉ 3-5 bông thôi, siêu nhẹ
+  const count = 3 + Math.floor(Math.random() * 3); // 3-5 bông
   for (let i = 0; i < count; i++) {
     emojis.push({
       x: x,
