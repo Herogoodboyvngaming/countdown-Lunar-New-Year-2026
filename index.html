@@ -2,35 +2,34 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Đếm Ngược Giao Thừa Tết Âm Lịch Bính Ngọ 2026</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Đếm Ngược Giao Thừa Tết Bính Ngọ 2026</title>
   <link rel="stylesheet" href="style.css"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&family=Lobster&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&family=Lobster&family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
 <body>
+  <canvas id="fireworks-canvas"></canvas>
+
   <div class="container">
-    <div class="fireworks"></div>
-    
-    <h1 class="title">CHÚC MỪNG NĂM MỚI<br>TẾT ÂM LỊCH BÍNH NGỌ 2026</h1>
+    <h1 class="title">CHÚC MỪNG NĂM MỚI<br>TẾT BÍNH NGỌ 2026</h1>
     
     <div class="countdown">
-      <div class="countdown-item"><span id="days">00</span><p>Ngày</p></div>
-      <div class="countdown-item"><span id="hours">00</span><p>Giờ</p></div>
-      <div class="countdown-item"><span id="minutes">00</span><p>Phút</p></div>
-      <div class="countdown-item"><span id="seconds">00</span><p>Giây</p></div>
+      <div class="countdown-item"><span id="days">00</span><p>NGÀY</p></div>
+      <div class="countdown-item"><span id="hours">00</span><p>GIỜ</p></div>
+      <div class="countdown-item"><span id="minutes">00</span><p>PHÚT</p></div>
+      <div class="countdown-item"><span id="seconds">00</span><p>GIÂY</p></div>
     </div>
 
-    <p class="subtitle">Đêm Giao thừa 29 Tết - Chuyển giao năm mới lúc 00:00 rạng sáng 17/02/2026 (dương lịch)</p>
-    <p class="subtitle small">Năm con Ngựa - Tháng Chạp thiếu, không có 30 Tết năm nay!</p>
+    <p class="subtitle">Giao thừa 29 Tết - 00:00 rạng sáng 17/02/2026 (dương lịch)</p>
 
     <div class="music-control">
       <button id="musicToggle" class="btn-music">Bật Nhạc Tết ♫</button>
     </div>
   </div>
 
-  <!-- YouTube Player ngầm (ẩn hoàn toàn) -->
+  <!-- YouTube player ngầm - ẩn hoàn toàn, chỉ audio -->
   <div id="youtube-player"></div>
 
   <script src="https://www.youtube.com/iframe_api"></script>
