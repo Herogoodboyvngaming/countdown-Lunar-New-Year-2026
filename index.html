@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&family=Lobster&family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
-<body>
-  <canvas id="fireworks-canvas"></canvas>
+<body id="body">
+  <canvas id="petals-canvas"></canvas>
 
   <div class="container">
     <h1 class="title">CHÚC MỪNG NĂM MỚI<br>TẾT BÍNH NGỌ 2026</h1>
@@ -22,14 +22,19 @@
       <div class="countdown-item"><span id="seconds">00</span><p>GIÂY</p></div>
     </div>
 
-    <p class="subtitle">Giao thừa 29 Tết - 00:00 rạng sáng 17/02/2026 (dương lịch)</p>
+    <p class="subtitle">Giao thừa 29 Tết - 00:00 rạng sáng 17/02/2026</p>
 
     <div class="music-control">
       <button id="musicToggle" class="btn-music">Bật Nhạc Tết ♫</button>
+      <div class="volume-control">
+        <label for="volumeSlider">Âm lượng: </label>
+        <input type="range" id="volumeSlider" min="0" max="100" value="100" step="1">
+      </div>
+      <button id="changeBgBtn" class="btn-change-bg">Change Background 🌸</button>
     </div>
   </div>
 
-  <!-- YouTube player ngầm - ẩn hoàn toàn, chỉ audio -->
+  <!-- YouTube player ngầm -->
   <div id="youtube-player"></div>
 
   <script src="https://www.youtube.com/iframe_api"></script>
