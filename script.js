@@ -73,15 +73,28 @@ const volumeSlider = document.getElementById("volumeSlider");
 let isPlaying = false;
 
 toggleBtn.addEventListener("click", () => {
-  if (!player || !playerReady) {
-    alert("Nhạc đang load... Chờ chút rồi bấm lại nhé!");
-    return;
-  }
+  if (!player) return; // Im lặng nếu chưa load
+
   if (isPlaying) {
     player.pauseVideo();
     toggleBtn.textContent = "Bật Nhạc Tết ♫";
     toggleBtn.classList.remove("active");
   } else {
+    if (!playerReady) {
+      // Nếu chưa ready, thử lại sau 1s (không alert)
+      setTimeout(() => {
+        if (player && playerReady) {
+          player.mute();
+          player.playVideo();
+          setTimeout(() => { if (player.unMute) player.unMute(); }, 300);
+          toggleBtn.textContent = "Tắt Nhạc Tết ♫";
+          toggleBtn.classList.add("active");
+          isPlaying = true;
+        }
+      }, 1000);
+      return;
+    }
+
     player.mute();
     player.playVideo();
     setTimeout(() => { if (player.unMute) player.unMute(); }, 300);
@@ -95,18 +108,18 @@ volumeSlider.addEventListener("input", () => {
   if (player && playerReady) player.setVolume(volumeSlider.value);
 });
 
-// Emoji 🌸 bay khi bấm màn hình - SIÊU NHẸ (3-5 bông)
+// Emoji 🌸 bay khi bấm màn hình (3-5 bông, nhẹ)
 const canvas = document.getElementById("emoji-canvas");
 const ctx = canvas.getContext("2d");
 
-// Resize canvas realtime cho mọi thiết bị (PC, Android, iOS, Mac)
+// Resize realtime cho mọi thiết bị
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 }
 window.addEventListener("resize", resizeCanvas);
 window.addEventListener("orientationchange", resizeCanvas);
-resizeCanvas(); // Gọi lần đầu
+resizeCanvas();
 
 let emojis = [];
 
