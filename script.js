@@ -1,4 +1,4 @@
-// Countdown chuẩn
+// Countdown
 const GIAO_THUA = new Date("2026-02-17T00:00:00+07:00").getTime();
 const daysEl = document.getElementById("days");
 const hoursEl = document.getElementById("hours");
@@ -37,7 +37,7 @@ document.getElementById("changeBgBtn").addEventListener("click", () => {
   document.getElementById("body").style.background = backgrounds[currentBgIndex];
 });
 
-// YouTube Music - Fix cho mobile
+// YouTube Music
 let player;
 let playerReady = false;
 
@@ -59,19 +59,14 @@ function onYouTubeIframeAPIReady() {
       playsinline: 1
     },
     events: {
-      'onReady': onPlayerReady,
-      'onError': (e) => {
-        console.error("YouTube Error:", e.data);
-        alert("Lỗi phát nhạc: " + e.data + ". Thử reload trang hoặc bấm nút lại!");
-      }
+      'onReady': (e) => {
+        playerReady = true;
+        e.target.setVolume(100);
+        console.log("YouTube ready!");
+      },
+      'onError': (e) => console.error("YouTube Error:", e.data)
     }
   });
-}
-
-function onPlayerReady(event) {
-  playerReady = true;
-  event.target.setVolume(100);
-  console.log("YouTube ready! Bấm nút để phát.");
 }
 
 const toggleBtn = document.getElementById("musicToggle");
@@ -80,7 +75,7 @@ let isPlaying = false;
 
 toggleBtn.addEventListener("click", () => {
   if (!player || !playerReady) {
-    alert("Nhạc đang load... Chờ 3-5s rồi bấm lại nhé! (Trên mobile cần tương tác trước)");
+    alert("Nhạc đang load... Chờ chút rồi bấm lại nhé!");
     return;
   }
   if (isPlaying) {
@@ -88,12 +83,9 @@ toggleBtn.addEventListener("click", () => {
     toggleBtn.textContent = "Bật Nhạc Tết ♫";
     toggleBtn.classList.remove("active");
   } else {
-    // Trick mobile: Mute tạm rồi unmute để bypass block
     player.mute();
     player.playVideo();
-    setTimeout(() => {
-      if (player && player.unMute) player.unMute();
-    }, 500);
+    setTimeout(() => { if (player.unMute) player.unMute(); }, 300);
     toggleBtn.textContent = "Tắt Nhạc Tết ♫";
     toggleBtn.classList.add("active");
   }
@@ -101,12 +93,10 @@ toggleBtn.addEventListener("click", () => {
 });
 
 volumeSlider.addEventListener("input", () => {
-  if (player && playerReady) {
-    player.setVolume(volumeSlider.value);
-  }
+  if (player && playerReady) player.setVolume(volumeSlider.value);
 });
 
-// Canvas 🌸 bay khi bấm màn hình
+// Emoji 🌸 bay khi bấm màn hình - GIẢM XUỐNG 3-5 BÔNG
 const canvas = document.getElementById("emoji-canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
@@ -118,18 +108,19 @@ window.addEventListener("resize", () => {
 
 let emojis = [];
 
-function createEmojis(x, y, count = 10) {
+function createEmojis(x, y) {
+  const count = 3 + Math.floor(Math.random() * 3); // Chỉ 3-5 bông thôi, siêu nhẹ
   for (let i = 0; i < count; i++) {
     emojis.push({
       x: x,
       y: y,
-      size: 35 + Math.random() * 40,
-      vx: (Math.random() - 0.5) * 10,
-      vy: - (10 + Math.random() * 15),
+      size: 25 + Math.random() * 20,
+      vx: (Math.random() - 0.5) * 5,
+      vy: - (5 + Math.random() * 7),
       rotation: Math.random() * 360,
-      rotSpeed: (Math.random() - 0.5) * 15,
+      rotSpeed: (Math.random() - 0.5) * 6,
       alpha: 1,
-      life: 80 + Math.random() * 120
+      life: 70 + Math.random() * 50
     });
   }
 }
@@ -143,16 +134,14 @@ function animateEmojis() {
   emojis.forEach((e, i) => {
     e.x += e.vx;
     e.y += e.vy;
-    e.vy += 0.2;
+    e.vy += 0.12;
     e.rotation += e.rotSpeed;
-    e.alpha -= 0.012;
+    e.alpha -= 0.018;
     e.life--;
-
     if (e.life <= 0 || e.alpha <= 0) {
       emojis.splice(i, 1);
       return;
     }
-
     ctx.save();
     ctx.translate(e.x, e.y);
     ctx.rotate(e.rotation * Math.PI / 180);
@@ -163,7 +152,6 @@ function animateEmojis() {
     ctx.fillText('🌸', 0, 0);
     ctx.restore();
   });
-
   requestAnimationFrame(animateEmojis);
 }
 animateEmojis();
